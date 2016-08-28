@@ -7,8 +7,10 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpUriRequest;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
@@ -41,18 +43,10 @@ public class IShorteningBitly extends IShorteningMain {
 
 			final String path = new String(stb);
 
-			//			final RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(10000).setSocketTimeout(10000).build();
-			//
-			//			final List<Header> headers = new ArrayList<Header>();
-			//			headers.add(new BasicHeader("Accept-Charset", "UTF-8"));
-			//			headers.add(new BasicHeader("Accept-Language", "en-US,en;q=0.5"));
-			//			headers.add(new BasicHeader("User-Agent", Reference.MODID));
-			//
-			//			final HttpClient client =  HttpClientBuilder.create().setDefaultRequestConfig(requestConfig).setDefaultHeaders(headers).build();
-
-			final HttpGet httpGet = new HttpGet(path);
-			final HttpResponse response = downloader.client.execute(httpGet);
-			final InputStream is = response.getEntity().getContent();
+			final HttpUriRequest req = new HttpGet(path);
+			final HttpResponse response = downloader.client.execute(req);
+			final HttpEntity entity = response.getEntity();
+			final InputStream is = entity.getContent();
 			//			final String responseBody = EntityUtils.toString(response.getEntity(), "UTF-8");
 
 			if (response.getStatusLine().getStatusCode() != 200)
