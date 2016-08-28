@@ -46,8 +46,19 @@ public class IShorteningBitly extends IShorteningMain {
 			stb.append(token);
 			stb.append("&longUrl=");
 			stb.append(this.rawurl);
+			stb.append("&format=json");
 
 			final String path = new String(stb);
+
+			//			final URL url = new URL(path);
+			//			final HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+			//
+			//			if (connection.getResponseCode() != 200)
+			//				throw new ShorteningException("Transport Error: " + connection.getResponseCode() + connection.getResponseMessage());
+			//
+			//			final InputStream is = connection.getInputStream();
+			//			final InputStreamReader isr = new InputStreamReader(is, "UTF-8");
+			//			final BufferedReader reader = new BufferedReader(isr);
 
 			final RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(10000).setSocketTimeout(10000).build();
 
@@ -59,7 +70,7 @@ public class IShorteningBitly extends IShorteningMain {
 			final HttpClient client =  HttpClientBuilder.create().setDefaultRequestConfig(requestConfig).setDefaultHeaders(headers).build();
 
 			final HttpGet httpGet = new HttpGet(path);
-			final HttpResponse response = client.execute(httpGet);
+			final HttpResponse response = downloader.client.execute(httpGet);
 			final int responseStatus = response.getStatusLine().getStatusCode();
 			final InputStream is = response.getEntity().getContent();
 			//			final String responseBody = EntityUtils.toString(response.getEntity(), "UTF-8");
@@ -70,7 +81,7 @@ public class IShorteningBitly extends IShorteningMain {
 			final InputStreamReader isr = new InputStreamReader(is, "UTF-8");
 			final BufferedReader reader = new BufferedReader(isr);
 
-			final JsonReader jsonReader = new JsonReader(isr);
+			final JsonReader jsonReader = new JsonReader(reader);
 			final BitlyAPIJson apiJson = new Gson().fromJson(jsonReader, BitlyAPIJson.class);
 			jsonReader.close();
 
