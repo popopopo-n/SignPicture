@@ -5,23 +5,14 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.ws.http.HTTPException;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.http.Header;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.message.BasicHeader;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import com.kamesuta.mc.signpic.Reference;
+import com.kamesuta.mc.signpic.shortening.exception.ShorteningException;
 
 public class IShorteningBitly extends IShorteningMain {
 
@@ -50,33 +41,22 @@ public class IShorteningBitly extends IShorteningMain {
 
 			final String path = new String(stb);
 
-			//			final URL url = new URL(path);
-			//			final HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+			//			final RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(10000).setSocketTimeout(10000).build();
 			//
-			//			if (connection.getResponseCode() != 200)
-			//				throw new ShorteningException("Transport Error: " + connection.getResponseCode() + connection.getResponseMessage());
+			//			final List<Header> headers = new ArrayList<Header>();
+			//			headers.add(new BasicHeader("Accept-Charset", "UTF-8"));
+			//			headers.add(new BasicHeader("Accept-Language", "en-US,en;q=0.5"));
+			//			headers.add(new BasicHeader("User-Agent", Reference.MODID));
 			//
-			//			final InputStream is = connection.getInputStream();
-			//			final InputStreamReader isr = new InputStreamReader(is, "UTF-8");
-			//			final BufferedReader reader = new BufferedReader(isr);
-
-			final RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(10000).setSocketTimeout(10000).build();
-
-			final List<Header> headers = new ArrayList<Header>();
-			headers.add(new BasicHeader("Accept-Charset", "UTF-8"));
-			headers.add(new BasicHeader("Accept-Language", "en-US,en;q=0.5"));
-			headers.add(new BasicHeader("User-Agent", Reference.MODID));
-
-			final HttpClient client =  HttpClientBuilder.create().setDefaultRequestConfig(requestConfig).setDefaultHeaders(headers).build();
+			//			final HttpClient client =  HttpClientBuilder.create().setDefaultRequestConfig(requestConfig).setDefaultHeaders(headers).build();
 
 			final HttpGet httpGet = new HttpGet(path);
 			final HttpResponse response = downloader.client.execute(httpGet);
-			final int responseStatus = response.getStatusLine().getStatusCode();
 			final InputStream is = response.getEntity().getContent();
 			//			final String responseBody = EntityUtils.toString(response.getEntity(), "UTF-8");
 
-			if (responseStatus != 200)
-				throw new HTTPException(responseStatus);
+			if (response.getStatusLine().getStatusCode() != 200)
+				throw new ShorteningException("Transport Error: " + response.getStatusLine().getStatusCode());
 
 			final InputStreamReader isr = new InputStreamReader(is, "UTF-8");
 			final BufferedReader reader = new BufferedReader(isr);
