@@ -4,6 +4,6 @@ public interface IShortening {
 
 	public void shortening(String rawurl, IShorteningCallback callback);
 
-	public String getname();
+	public String getServicename();
 
 }
