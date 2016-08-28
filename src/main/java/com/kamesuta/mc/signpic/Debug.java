@@ -19,8 +19,9 @@ public class Debug {
 			public void onShorteningDone(final String shorturl) {
 				Reference.logger.info(shorturl);
 			}
+
 		};
-		IShorteningBitly.INSTANCE.shortening("https://github.com/Team-Fruit", callback);
+		new IShorteningBitly().shortening("https://github.com/Team-Fruit", callback);
 	}
 
 }

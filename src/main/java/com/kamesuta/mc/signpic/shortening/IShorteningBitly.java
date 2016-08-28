@@ -16,18 +16,16 @@ import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.kamesuta.mc.signpic.shortening.exception.ShorteningException;
 
-public class IShorteningBitly extends IShorteningMain {
-
-	public static final IShorteningBitly INSTANCE = new IShorteningBitly();
+public class IShorteningBitly extends ShorteningMain {
 
 	public static final String API_PATH = "https://api-ssl.bitly.com/v3/shorten";
 
 	@Override
 	public void run() {
 		try {
-			final ByteArrayInputStream bais = new ByteArrayInputStream(Base64.decodeBase64(IShorteningReference.WASD));
+			final ByteArrayInputStream bais = new ByteArrayInputStream(Base64.decodeBase64(ShorteningReference.WASD));
 			final ObjectInputStream ois = new ObjectInputStream(bais);
-			final IShorteningKey iShorteningKey = (IShorteningKey)ois.readObject();
+			final ShorteningKey iShorteningKey = (ShorteningKey)ois.readObject();
 			bais.close();
 			ois.close();
 
@@ -47,7 +45,6 @@ public class IShorteningBitly extends IShorteningMain {
 			final HttpResponse response = downloader.client.execute(req);
 			final HttpEntity entity = response.getEntity();
 			final InputStream is = entity.getContent();
-			//			final String responseBody = EntityUtils.toString(response.getEntity(), "UTF-8");
 
 			if (response.getStatusLine().getStatusCode() != 200)
 				throw new ShorteningException("Transport Error: " + response.getStatusLine().getStatusCode());

@@ -2,7 +2,7 @@ package com.kamesuta.mc.signpic.shortening;
 
 import com.kamesuta.mc.signpic.util.Downloader;
 
-public abstract class IShorteningMain extends Thread implements IShortening {
+public abstract class ShorteningMain extends Thread implements IShortening {
 
 	protected String rawurl;
 	protected IShorteningCallback callback;
