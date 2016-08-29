@@ -1,4 +1,4 @@
-package com.kamesuta.mc.signpic.shortening.exception;
+package com.kamesuta.mc.signpic.shortening;
 
 public class ShorteningException extends Exception {
 

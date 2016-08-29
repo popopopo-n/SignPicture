@@ -1,4 +1,4 @@
-package com.kamesuta.mc.signpic.shortening;
+package com.kamesuta.mc.signpic.shortening.net;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -14,9 +14,11 @@ import org.apache.http.client.methods.HttpUriRequest;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import com.kamesuta.mc.signpic.shortening.exception.ShorteningException;
+import com.kamesuta.mc.signpic.shortening.ShorteningException;
+import com.kamesuta.mc.signpic.shortening.ShorteningKey;
+import com.kamesuta.mc.signpic.shortening.ShorteningReference;
 
-public class IShorteningBitly extends ShorteningMain {
+public class ShorteningBitly extends ShorteningMain {
 
 	public static final String API_PATH = "https://api-ssl.bitly.com/v3/shorten";
 
@@ -47,7 +49,7 @@ public class IShorteningBitly extends ShorteningMain {
 			final InputStream is = entity.getContent();
 
 			if (response.getStatusLine().getStatusCode() != 200)
-				throw new ShorteningException("Transport Error: " + response.getStatusLine().getStatusCode());
+				throw new ShorteningException("Transport Error " + response.getStatusLine().getStatusCode());
 
 			final InputStreamReader isr = new InputStreamReader(is, "UTF-8");
 			final BufferedReader reader = new BufferedReader(isr);

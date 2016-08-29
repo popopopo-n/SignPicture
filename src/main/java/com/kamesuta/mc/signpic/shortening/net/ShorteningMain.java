@@ -1,5 +1,7 @@
-package com.kamesuta.mc.signpic.shortening;
+package com.kamesuta.mc.signpic.shortening.net;
 
+import com.kamesuta.mc.signpic.shortening.IShortening;
+import com.kamesuta.mc.signpic.shortening.IShorteningCallback;
 import com.kamesuta.mc.signpic.util.Downloader;
 
 public abstract class ShorteningMain extends Thread implements IShortening {
