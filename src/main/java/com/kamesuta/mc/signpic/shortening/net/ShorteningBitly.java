@@ -1,17 +1,13 @@
 package com.kamesuta.mc.signpic.shortening.net;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import com.kamesuta.mc.signpic.shortening.ShorteningException;
 
 public class ShorteningBitly extends ShorteningMain {
 
@@ -34,17 +30,11 @@ public class ShorteningBitly extends ShorteningMain {
 
 			final HttpUriRequest req = new HttpGet(path);
 			final HttpResponse response = downloader.client.execute(req);
-			final HttpEntity entity = response.getEntity();
-			final InputStream is = entity.getContent();
-
-			if (response.getStatusLine().getStatusCode() != 200)
-				throw new ShorteningException("Transport Error " + response.getStatusLine().getStatusCode());
-
-			final InputStreamReader isr = new InputStreamReader(is, "UTF-8");
-			final BufferedReader reader = new BufferedReader(isr);
+			final BufferedReader reader = getReader(response);
 
 			final JsonReader jsonReader = new JsonReader(reader);
-			final BitlyAPIJson apiJson = new Gson().fromJson(jsonReader, BitlyAPIJson.class);
+			final BitlyJson apiJson = new Gson().fromJson(jsonReader, BitlyJson.class);
+			reader.close();
 			jsonReader.close();
 
 			this.callback.onShorteningDone(apiJson.data.url);
@@ -58,7 +48,7 @@ public class ShorteningBitly extends ShorteningMain {
 		return "Bit.ly";
 	}
 
-	class BitlyAPIJson {
+	class BitlyJson {
 		public String status_code;
 		public String status_txt;
 		public Data data;

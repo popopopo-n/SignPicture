@@ -1,7 +1,7 @@
 package com.kamesuta.mc.signpic;
 
 import com.kamesuta.mc.signpic.shortening.IShorteningCallback;
-import com.kamesuta.mc.signpic.shortening.net.ShorteningBitly;
+import com.kamesuta.mc.signpic.shortening.net.ShorteningGoogle;
 
 public class Debug {
 
@@ -21,7 +21,8 @@ public class Debug {
 			}
 
 		};
-		new ShorteningBitly().shortening("https://github.com/Team-Fruit", callback);
+		//		new ShorteningBitly().shortening("https://github.com/Team-Fruit", callback);
+		new ShorteningGoogle().shortening("https://github.com/Team-Fruit", callback);
 	}
 
 }
