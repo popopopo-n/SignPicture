@@ -1,12 +1,9 @@
 package com.kamesuta.mc.signpic.shortening.net;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -15,8 +12,6 @@ import org.apache.http.client.methods.HttpUriRequest;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.kamesuta.mc.signpic.shortening.ShorteningException;
-import com.kamesuta.mc.signpic.shortening.ShorteningKey;
-import com.kamesuta.mc.signpic.shortening.ShorteningReference;
 
 public class ShorteningBitly extends ShorteningMain {
 
@@ -25,13 +20,7 @@ public class ShorteningBitly extends ShorteningMain {
 	@Override
 	public void run() {
 		try {
-			final ByteArrayInputStream bais = new ByteArrayInputStream(Base64.decodeBase64(ShorteningReference.WASD));
-			final ObjectInputStream ois = new ObjectInputStream(bais);
-			final ShorteningKey iShorteningKey = (ShorteningKey)ois.readObject();
-			bais.close();
-			ois.close();
-
-			final String token = iShorteningKey.getSign();
+			final String token = getShorteningKey().getSign();
 
 			final StringBuilder stb = new StringBuilder();
 			stb.append(API_PATH);
@@ -69,17 +58,16 @@ public class ShorteningBitly extends ShorteningMain {
 		return "Bit.ly";
 	}
 
-}
-
-class BitlyAPIJson {
-	public String status_code;
-	public String status_txt;
-	public Data data;
-	public static class Data {
-		public String long_url;
-		public String url;
-		public String hash;
-		public String global_hash;
-		public String new_hash;
+	class BitlyAPIJson {
+		public String status_code;
+		public String status_txt;
+		public Data data;
+		public class Data {
+			public String long_url;
+			public String url;
+			public String hash;
+			public String global_hash;
+			public String new_hash;
+		}
 	}
 }
