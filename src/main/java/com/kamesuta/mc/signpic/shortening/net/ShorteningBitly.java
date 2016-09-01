@@ -9,7 +9,7 @@ import org.apache.http.client.methods.HttpUriRequest;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
-public class ShorteningBitly extends ShorteningMain {
+public class ShorteningBitly extends Shortening {
 
 	public static final String API_PATH = "https://api-ssl.bitly.com/v3/shorten";
 

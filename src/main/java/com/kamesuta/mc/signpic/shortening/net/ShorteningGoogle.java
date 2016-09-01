@@ -10,7 +10,7 @@ import org.apache.http.entity.StringEntity;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
-public class ShorteningGoogle extends ShorteningMain {
+public class ShorteningGoogle extends Shortening {
 
 	public static final String API_PATH = "https://www.googleapis.com/urlshortener/v1/url";
 

@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
+import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 
@@ -19,7 +20,7 @@ import com.kamesuta.mc.signpic.shortening.ShorteningKey;
 import com.kamesuta.mc.signpic.shortening.ShorteningReference;
 import com.kamesuta.mc.signpic.util.Downloader;
 
-public abstract class ShorteningMain extends Thread implements IShortening {
+public abstract class Shortening extends Thread implements IShortening {
 
 	protected String rawurl;
 	protected IShorteningCallback callback;
@@ -59,7 +60,7 @@ public abstract class ShorteningMain extends Thread implements IShortening {
 
 			final HttpEntity entity = response.getEntity();
 			final InputStream is = entity.getContent();
-			final InputStreamReader isr = new InputStreamReader(is, "UTF-8");
+			final InputStreamReader isr = new InputStreamReader(is, Consts.UTF_8);
 			final BufferedReader reader = new BufferedReader(isr);
 			return reader;
 		} catch (final IOException e) {
