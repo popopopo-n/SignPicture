@@ -63,7 +63,7 @@ public abstract class ShorteningMain extends Thread implements IShortening {
 			final BufferedReader reader = new BufferedReader(isr);interrupt();
 			return reader;
 		} catch (final IOException e) {
-			throw new ShorteningException("Read Error", e);
+			throw new ShorteningException("Read Error");
 		}
 	}
 
