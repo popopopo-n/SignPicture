@@ -60,7 +60,7 @@ public abstract class ShorteningMain extends Thread implements IShortening {
 			final HttpEntity entity = response.getEntity();
 			final InputStream is = entity.getContent();
 			final InputStreamReader isr = new InputStreamReader(is, "UTF-8");
-			final BufferedReader reader = new BufferedReader(isr);interrupt();
+			final BufferedReader reader = new BufferedReader(isr);
 			return reader;
 		} catch (final IOException e) {
 			throw new ShorteningException("Read Error");
