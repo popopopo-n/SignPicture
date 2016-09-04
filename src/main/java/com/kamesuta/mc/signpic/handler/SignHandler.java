@@ -58,8 +58,8 @@ public class SignHandler {
 
 	@SubscribeEvent
 	public void onClick(final MouseEvent event) {
-		if (CurrentMode.instance.isMode(Mode.COPY)) {
-			if (event.buttonstate && this.mc.gameSettings.keyBindUseItem.getKeyCode() == event.button - 100) {
+		if (event.buttonstate && this.mc.gameSettings.keyBindUseItem.getKeyCode() == event.button - 100) {
+			if (CurrentMode.instance.isMode(Mode.COPY)) {
 				if (this.mc.objectMouseOver != null) {
 					final int x = this.mc.objectMouseOver.blockX;
 					final int y = this.mc.objectMouseOver.blockY;
@@ -78,6 +78,19 @@ public class SignHandler {
 									CurrentMode.instance.setMode();
 							}
 						}
+					}
+				}
+			}
+			if (this.mc.objectMouseOver != null) {
+				final int x = this.mc.objectMouseOver.blockX;
+				final int y = this.mc.objectMouseOver.blockY;
+				final int z = this.mc.objectMouseOver.blockZ;
+				final Block block = this.mc.theWorld.getBlock(x, y, z);
+				if (block instanceof BlockSign) {
+					final TileEntity tile = this.mc.theWorld.getTileEntity(x, y, z);
+					if (tile instanceof TileEntitySign) {
+						final TileEntitySign tilesign = (TileEntitySign)tile;
+						Reference.logger.info(String.format("看板の中身は・・・[%s][%s][%s][%s]", tilesign.signText[0], tilesign.signText[1], tilesign.signText[2], tilesign.signText[3]));
 					}
 				}
 			}
